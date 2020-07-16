@@ -5,7 +5,11 @@
     <div class="card">
       <h2>Log</h2>
       <h4>Log Level</h4>
-      <input type="text" :value="log.level" />
+      <select v-model="log.level">
+        <option value="INFO">INFO</option>
+        <option value="ERROR">ERROR</option>
+        <option value="DEBUG">DEBUG</option>
+      </select>
       <br />
       <h4>Log Path</h4>
       <input type="text" :value="log.path" />
@@ -226,14 +230,16 @@ export default {
           ]
         }
       ],
-      clusters: [{
-        name: "serverCluster",
-        type: "SIMPLE",
-        lb_type: "LB_RANDOM",
-        max_request_per_conn: 1024,
-        conn_buffer_limit_bytes: 32768,
-        hosts: [{ address: "127.0.0.1:8080" }]
-      }]
+      clusters: [
+        {
+          name: "serverCluster",
+          type: "SIMPLE",
+          lb_type: "LB_RANDOM",
+          max_request_per_conn: 1024,
+          conn_buffer_limit_bytes: 32768,
+          hosts: [{ address: "127.0.0.1:8080" }]
+        }
+      ]
     };
   },
   methods: {

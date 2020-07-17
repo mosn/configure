@@ -175,7 +175,7 @@
               /
               <a v-on:click="remove_filter" :id="i" :name="index">del filter</a>
             </h4>
-            <div v-for="filter in chain.filter" :key="filter.index" style="border:1px solid gray">
+            <div v-for="filter in chain.filters" :key="filter.index" style="border:1px solid gray">
               <td>
                 <h4>filter_type</h4>
                 <input type="text" :value="filter.type" />
@@ -236,9 +236,11 @@ export default {
           name: "serverListener",
           address: "127.0.0.1:2045",
           bind_port: true,
-          filter_chains: [
+          listener_filters : [],
+          stream_filters: [],
+          filter_chains: [ // network filters
             {
-              filter: [
+              filters: [
                 {
                   type: "proxy",
                   config: {
@@ -375,7 +377,7 @@ export default {
     append_filter: function(event) {
       this.listeners[event.target.id].filter_chains[
         event.target.name
-      ].filter.push({
+      ].filters.push({
         type: "proxy",
         config: {
           downstream_protocol: "Http1",
@@ -387,7 +389,7 @@ export default {
     remove_filter: function(event) {
       this.listeners[event.target.id].filter_chains[
         event.target.name
-      ].filter.pop();
+      ].filters.pop();
     },
     remove_filter_chain: function(event) {
       this.listeners[event.target.id].filter_chains.pop();

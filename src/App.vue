@@ -113,7 +113,7 @@
           </td>
           <td>
             <h4>
-              routers
+              match rules
               <a v-on:click="append_internal_router" :id="index">add</a>
               /
               <a v-on:click="remove_internal_router" :id="index">del</a>
@@ -138,7 +138,12 @@
 
     <!-- listener start -->
     <div class="card_wide">
-      <h2>Listener</h2>
+      <h2>
+        Listener
+        <a v-on:click="append_listener">add</a>
+        /
+        <a v-on:click="remove_listener">del </a>
+      </h2>
       <div v-for="(listener,i) in listeners" :key="listener.name" style="border:1px solid gray">
         <table>
           <tr>
@@ -198,8 +203,7 @@
     <button v-on:click="generate_json">Generate JSON</button>
     <hr />
     <div>
-      <input type="text" id="json_output" :value="json_data" />
-      <button id="copy_text">Copy</button>
+      <input type="text" class="json_box" :value="json_data" />
     </div>
   </div>
 </template>
@@ -210,6 +214,7 @@ export default {
   data() {
     return {
       msg: "MOSN configuration generator",
+      json_data: "",
       log: {
         level: "INFO",
         path: "/tmp/test.log"
@@ -329,6 +334,30 @@ export default {
     },
     //------- router end
     //------- listener start
+    append_listener: function(event) {
+      this.listeners.push({
+        name: "serverListener",
+        address: "127.0.0.1:2045",
+        bind_port: true,
+        filter_chains: [
+          {
+            filter: [
+              {
+                type: "proxy",
+                config: {
+                  downstream_protocol: "Http1",
+                  upstream_protocol: "Http1",
+                  router_config_name: "serverRouter"
+                }
+              }
+            ]
+          }
+        ]
+      });
+    },
+    remove_listener: function(event) {
+      this.listeners.pop();
+    },
     append_filter_chain: function(event) {
       this.listeners[event.target.id].filter_chains.push({
         filter: [
@@ -344,7 +373,9 @@ export default {
       });
     },
     append_filter: function(event) {
-      this.listeners[event.target.id].filter_chains[event.target.name].filter.push({
+      this.listeners[event.target.id].filter_chains[
+        event.target.name
+      ].filter.push({
         type: "proxy",
         config: {
           downstream_protocol: "Http1",
@@ -354,7 +385,9 @@ export default {
       });
     },
     remove_filter: function(event) {
-      this.listeners[event.target.id].filter_chains[event.target.name].filter.pop();
+      this.listeners[event.target.id].filter_chains[
+        event.target.name
+      ].filter.pop();
     },
     remove_filter_chain: function(event) {
       this.listeners[event.target.id].filter_chains.pop();
@@ -399,9 +432,9 @@ h4 {
   height: 30px;
 }
 
-#json_output {
-  width: 90%;
-  height: 30px;
+.json_box {
+  width: 100%;
+  height: auto;
   font-size: 18px;
   padding-left: 12px;
 }

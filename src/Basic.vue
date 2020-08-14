@@ -16,10 +16,10 @@
       <h2>Admin</h2>
       <h4>IP</h4>
       <p>
-        <input type="text" :value="admin.ip" />
+        <input type="text" :value="admin.address" />
       </p>
       <h4>Port</h4>
-      <input type="text" :value="admin.port" />
+      <input type="text" :value="admin.port_value" />
     </div>
     <div class="card">
       <h2>Tracing</h2>
@@ -52,8 +52,8 @@ export default {
         path: "/tmp/test.log"
       },
       admin: {
-        ip: "0.0.0.0",
-        port: 12345
+        address: "0.0.0.0",
+        port_value: 12345
       },
       tracing: {
         enable: false,

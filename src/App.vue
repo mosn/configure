@@ -48,16 +48,46 @@ export default {
   },
   methods: {
     generate_json: function (event) {
-      alert(basic_component.data().log.path);
       var x = {
-        log: this.log,
-        admin: this.admin,
-        tracing: this.tracing,
-        pprof: this.pprof,
-        listeners: this.clusters,
-        cluster: this.clusters,
-        router: this.current_router,
+        // basic
+        admin: {
+          address: {
+            socket_address: basic_component.data().admin,
+          },
+        },
+        tracing: basic_component.data().tracing,
+        pprof: basic_component.data().pprof,
+
+        servers: [
+          {
+            default_log_level: basic_component.data().log.level,
+            default_log_path: basic_component.data().log.path,
+            routers: router_component.data().routers,
+            listeners: [],
+            //listeners : listener_component.
+          },
+        ],
+
+        cluster_manager: {
+          clusters: cluster_component.data().clusters,
+        },
       };
+
+      var listeners  = listener_component.data().listeners;
+      for (var idx in listeners) {
+        var l = listeners[idx];
+        x.servers[0].listeners.push({
+          name: l.name,
+          address: l.address,
+          bind_port: l.bind_port,
+          filter_chains: [
+            {
+              filters: l.network_filters,
+            },
+          ],
+        });
+      }
+
       this.json_data = JSON.stringify(x);
     },
   },

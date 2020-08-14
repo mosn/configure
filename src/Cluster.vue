@@ -6,7 +6,7 @@
       /
       <a v-on:click="remove_cluster" :id="index">del</a>
     </h2>
-    <table v-for="(cluster,index) in clusters" :key="index" style="border:1px solid gray">
+    <table v-for="(cluster,index) in clusters" :key="cluster+index" style="border:1px solid gray">
       <tr>
         <td>
           <h4>name</h4>

@@ -51,7 +51,7 @@ export default {
               domains: '["*"]',
               routers: [
                 {
-                  match: '{prefix : "/"}', // 还可能有其它结果
+                  match: '{"prefix" : "/"}', // 还可能有其它结果
                   route: { cluster_name: "serverCluster" },
                 },
               ],
@@ -72,7 +72,7 @@ export default {
             domains: '["*"]',
             routers: [
               {
-                match: '{prefix : "/"}', // 还可能有其它结果
+                match: '{"prefix" : "/"}', // 还可能有其它结果
                 route: { cluster_name: "serverCluster" },
               },
             ],
@@ -89,7 +89,7 @@ export default {
         domains: '["*"]',
         routers: [
           {
-            match: '{prefix : "/"}', // 还可能有其它结果
+            match: '{"prefix" : "/"}', // 还可能有其它结果
             route: { cluster_name: "serverCluster" },
           },
         ],

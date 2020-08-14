@@ -52,18 +52,18 @@
       <table>
         <th>
           listener filters
-          <a v-on:click="append_listener_filter" :id="i">add filter</a>
+          <a v-on:click="append_listener_filter" :id="i" >add filter</a>
           /
-          <a v-on:click="remove_listener_filter" :id="i">del filter</a>
+          <a v-on:click="remove_listener_filter" :id="i" >del filter</a>
         </th>
         <tr></tr>
       </table>
       <table>
         <th>
           stream filters
-          <a v-on:click="append_stream_filter" :id="i">add filter</a>
+          <a v-on:click="append_stream_filter" :id="i" >add filter</a>
           /
-          <a v-on:click="remove_stream_filter" :id="i">del filter</a>
+          <a v-on:click="remove_stream_filter" :id="i" >del filter</a>
         </th>
         <tr></tr>
       </table>
@@ -99,23 +99,25 @@ export default {
   },
   methods: {
     append_listener: function (event) {
-      this.listeners.push({
-        name: "serverListener",
-        address: "127.0.0.1:2045",
-        bind_port: true,
-        listener_filters: [],
-        stream_filters: [],
-        network_filters: [
-          {
-            type: "proxy",
-            config: {
-              downstream_protocol: "Http1",
-              upstream_protocol: "Http1",
-              router_config_name: "serverRouter",
+      this.listeners.push(
+        {
+          name: "serverListener",
+          address: "127.0.0.1:2045",
+          bind_port: true,
+          listener_filters: [],
+          stream_filters: [],
+          network_filters: [
+            {
+              type: "proxy",
+              config: {
+                downstream_protocol: "Http1",
+                upstream_protocol: "Http1",
+                router_config_name: "serverRouter",
+              },
             },
-          },
-        ],
-      });
+          ],
+        },
+      );
     },
     remove_listener: function (event) {
       this.listeners.pop();
@@ -133,10 +135,10 @@ export default {
     remove_network_filter: function (event) {
       this.listeners[event.target.id].network_filters.pop();
     },
-    append_stream_filter: function (event) {},
-    remove_stream_filter: function (event) {},
-    append_listener_filter: function (event) {},
-    remove_listener_filter: function (event) {},
+    append_stream_filter : function(event) {},
+    remove_stream_filter : function(event) {},
+    append_listener_filter : function(event) {},
+    remove_listener_filter : function(event) {},
   },
 };
 </script>

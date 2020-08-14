@@ -62,9 +62,7 @@ export default {
           {
             default_log_level: basic_component.data().log.level,
             default_log_path: basic_component.data().log.path,
-            routers: router_component.data().routers,
             listeners: [],
-            //listeners : listener_component.
           },
         ],
 
@@ -73,7 +71,25 @@ export default {
         },
       };
 
-      var listeners  = listener_component.data().listeners;
+      // router start
+      var routers = router_component.data().routers;
+      for (var i in routers) {
+        for (var j in routers[i].virtual_hosts) {
+          routers[i].virtual_hosts[j].domains = JSON.parse(
+            routers[i].virtual_hosts[j].domains
+          );
+          for (var k in routers[i].virtual_hosts[j].routers) {
+            routers[i].virtual_hosts[j].routers[k].match = JSON.parse(
+              routers[i].virtual_hosts[j].routers[k].match
+            );
+          }
+        }
+      }
+      x.servers[0].routers = routers;
+      // router end
+
+      // listener start
+      var listeners = listener_component.data().listeners;
       for (var idx in listeners) {
         var l = listeners[idx];
         x.servers[0].listeners.push({
@@ -87,6 +103,7 @@ export default {
           ],
         });
       }
+      // listener end
 
       this.json_data = JSON.stringify(x);
     },
